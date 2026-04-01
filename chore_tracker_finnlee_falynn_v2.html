@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Finnlee & Falynn Chore Tracker</title>
+  <style>
+    :root{
+      --bg:#0f172a;
+      --panel:#111827;
+      --panel2:#1f2937;
+      --line:#334155;
+      --text:#f8fafc;
+      --muted:#cbd5e1;
+      --accent:#f59e0b;
+      --good:#22c55e;
+      --warn:#ef4444;
+      --soft:#1e293b;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:Arial, Helvetica, sans-serif;
+      background:linear-gradient(180deg,#0b1220 0%, #111827 100%);
+      color:var(--text);
+    }
+    .wrap{
+      max-width:1400px;
+      margin:0 auto;
+      padding:24px;
+    }
+    .hero{
+      background:rgba(17,24,39,.95);
+      border:1px solid var(--line);
+      border-radius:20px;
+      padding:24px;
+      box-shadow:0 10px 30px rgba(0,0,0,.25);
+      margin-bottom:20px;
+    }
+    h1,h2,h3{margin:0 0 10px}
+    .sub{color:var(--muted); line-height:1.5}
+    .warning{
+      margin-top:14px;
+      padding:14px 16px;
+      background:rgba(239,68,68,.12);
+      border:1px solid rgba(239,68,68,.45);
+      border-radius:14px;
+      color:#fecaca;
+      font-weight:700;
+    }
+    .rules{
+      display:grid;
+      grid-template-columns:repeat(3, minmax(0,1fr));
+      gap:14px;
+      margin-top:18px;
+    }
+    .rule{
+      background:var(--soft);
+      border:1px solid var(--line);
+      border-radius:16px;
+      padding:16px;
+    }
+    .rule strong{color:var(--accent)}
+    .columns{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:20px;
+      align-items:start;
+    }
+    .kid{
+      background:rgba(17,24,39,.95);
+      border:1px solid var(--line);
+      border-radius:20px;
+      overflow:hidden;
+      box-shadow:0 10px 30px rgba(0,0,0,.2);
+    }
+    .kid-header{
+      padding:18px 18px 14px;
+      border-bottom:1px solid var(--line);
+      background:linear-gradient(180deg, rgba(245,158,11,.13), rgba(245,158,11,.05));
+    }
+    .stats{
+      display:grid;
+      grid-template-columns:repeat(3, minmax(0,1fr));
+      gap:10px;
+      margin-top:14px;
+    }
+    .stat{
+      background:var(--panel2);
+      border:1px solid var(--line);
+      border-radius:14px;
+      padding:12px;
+      text-align:center;
+    }
+    .stat .value{
+      font-size:1.5rem;
+      font-weight:800;
+      color:var(--accent);
+    }
+    .bar{
+      height:12px;
+      width:100%;
+      background:#0b1220;
+      border-radius:999px;
+      overflow:hidden;
+      border:1px solid var(--line);
+      margin-top:10px;
+    }
+    .fill{
+      height:100%;
+      width:0%;
+      background:linear-gradient(90deg, var(--good), #86efac);
+      transition:width .25s ease;
+    }
+    .inner{padding:18px;}
+    .day{
+      margin-bottom:18px;
+      background:var(--soft);
+      border:1px solid var(--line);
+      border-radius:16px;
+      overflow:hidden;
+    }
+    .day h3{
+      padding:14px 16px;
+      background:rgba(255,255,255,.03);
+      border-bottom:1px solid var(--line);
+    }
+    table{
+      width:100%;
+      border-collapse:collapse;
+      font-size:.95rem;
+    }
+    th,td{
+      padding:10px 8px;
+      border-bottom:1px solid rgba(148,163,184,.18);
+      vertical-align:middle;
+    }
+    th{
+      color:#fde68a;
+      font-size:.85rem;
+      text-transform:uppercase;
+      letter-spacing:.04em;
+    }
+    tr:last-child td{border-bottom:none}
+    .task{
+      font-weight:600;
+    }
+    .small{
+      color:var(--muted);
+      font-size:.85rem;
+    }
+    .money{
+      white-space:nowrap;
+      font-weight:800;
+      color:#fde68a;
+    }
+    .radios{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+    .radios label, .checkline{
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      cursor:pointer;
+      font-size:.9rem;
+      color:var(--text);
+    }
+    input[type="radio"], input[type="checkbox"]{
+      transform:scale(1.1);
+      accent-color:var(--accent);
+      cursor:pointer;
+    }
+    .bonus-box{
+      background:var(--soft);
+      border:1px solid var(--line);
+      border-radius:16px;
+      padding:14px;
+      margin-top:16px;
+    }
+    .bonus-box ul{
+      margin:10px 0 0 18px;
+      padding:0;
+      color:var(--muted);
+    }
+    .footer-note{
+      margin-top:12px;
+      color:#fecaca;
+      font-weight:700;
+      font-size:.92rem;
+    }
+    .pill{
+      display:inline-block;
+      padding:4px 9px;
+      border-radius:999px;
+      background:rgba(245,158,11,.15);
+      border:1px solid rgba(245,158,11,.35);
+      color:#fde68a;
+      font-size:.78rem;
+      font-weight:700;
+      margin-left:8px;
+    }
+    .legend{
+      margin-top:6px;
+      color:var(--muted);
+      font-size:.88rem;
+    }
+    @media (max-width: 980px){
+      .columns{grid-template-columns:1fr}
+      .rules{grid-template-columns:1fr}
+      .stats{grid-template-columns:1fr}
+      table, thead, tbody, th, td, tr{display:block}
+      thead{display:none}
+      tr{
+        padding:10px;
+        border-bottom:1px solid rgba(148,163,184,.18);
+      }
+      td{
+        border:none;
+        padding:6px 0;
+      }
+      td::before{
+        content:attr(data-label);
+        display:block;
+        color:#fde68a;
+        font-size:.78rem;
+        text-transform:uppercase;
+        margin-bottom:3px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <section class="hero">
+      <h1>Finnlee &amp; Falynn Chore Tracker</h1>
+      <p class="sub">
+        Each kid can earn <strong>$100</strong>, but the money is <strong>weighted across the chores</strong>.
+        Harder chores are worth more money. Easier chores are worth less money. The lists are side by side so Dad can track both at the same time.
+      </p>
+      <div class="warning">
+        IMPORTANT: If Dad checks a chore and it was rushed, sloppy, or not actually done the right way, the money for that chore goes DOWN until it is fixed.
+      </div>
+
+      <div class="rules">
+        <div class="rule">
+          <h3>Weighted Pay</h3>
+          <div class="sub">
+            <strong>Hardest:</strong> garage and breezeway<br>
+            <strong>Next:</strong> bedrooms<br>
+            <strong>Next:</strong> clothing and outdoor work<br>
+            <strong>Easy:</strong> everything else
+          </div>
+        </div>
+        <div class="rule">
+          <h3>Status Rules</h3>
+          <div class="sub">
+            Mark each chore as <strong>Not Started</strong>, <strong>Done</strong>, or <strong>Failed Dad Check</strong>.
+            A failed check cuts the chore payout in half until it is corrected.
+          </div>
+        </div>
+        <div class="rule">
+          <h3>Bonus Rules</h3>
+          <div class="sub">
+            Bonuses can be added for <strong>meaningful helping</strong>, <strong>not rushing</strong>, and <strong>great teamwork</strong>.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="columns">
+      <div class="kid" id="finnCard">
+        <div class="kid-header">
+          <h2>Finnlee (Age 10)</h2>
+          <div class="legend">Goal: finish strong, do it right, and earn the full $100.</div>
+          <div class="stats">
+            <div class="stat">
+              <div>Complete</div>
+              <div class="value" id="finnPercent">0%</div>
+              <div class="bar"><div class="fill" id="finnBar"></div></div>
+            </div>
+            <div class="stat">
+              <div>Base Earned (of $100)</div>
+              <div class="value" id="finnEarned">$0.00</div>
+            </div>
+            <div class="stat">
+              <div>Total w/ Bonus (out of $100 base)</div>
+              <div class="value" id="finnTotal">$0.00</div>
+            </div>
+          </div>
+        </div>
+        <div class="inner" id="finnDays"></div>
+      </div>
+
+      <div class="kid" id="falCard">
+        <div class="kid-header">
+          <h2>Falynn (Age 8)</h2>
+          <div class="legend">Goal: steady work, good attitude, and do every chore the right way.</div>
+          <div class="stats">
+            <div class="stat">
+              <div>Complete</div>
+              <div class="value" id="falPercent">0%</div>
+              <div class="bar"><div class="fill" id="falBar"></div></div>
+            </div>
+            <div class="stat">
+              <div>Base Earned (of $100)</div>
+              <div class="value" id="falEarned">$0.00</div>
+            </div>
+            <div class="stat">
+              <div>Total w/ Bonus (out of $100 base)</div>
+              <div class="value" id="falTotal">$0.00</div>
+            </div>
+          </div>
+        </div>
+        <div class="inner" id="falDays"></div>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    const kids = {
+      finn: {
+        name: "Finnlee",
+        days: [
+          {
+            title: "Day 1 – Reset & Organization",
+            chores: [
+              { task: "Sort clothes on Dad's bed (with Falynn)", value: 8, tier: "Clothing / medium" },
+              { task: "Fold all clothes", value: 8, tier: "Clothing / medium" },
+              { task: "Put away all clothes", value: 8, tier: "Clothing / medium" },
+              { task: "Sweep kitchen", value: 5, tier: "Easy" },
+              { task: "Clean toilet", value: 5, tier: "Easy" },
+              { task: "Clean bathtub", value: 5, tier: "Easy" }
+            ]
+          },
+          {
+            title: "Day 2 – Deep Clean",
+            chores: [
+              { task: "Kitchen dishes", value: 5, tier: "Easy" },
+              { task: "Clean stove", value: 5, tier: "Easy" },
+              { task: "Clean sink in kitchen", value: 5, tier: "Easy" },
+              { task: "Clean Finn room", value: 12, tier: "Bedroom / hard" }
+            ]
+          },
+          {
+            title: "Day 3 – Outside & Heavy Work",
+            chores: [
+              { task: "Pull weeds from garden (with Falynn)", value: 6, tier: "Outdoor / medium" },
+              { task: "Rake leaves front yard (with Falynn)", value: 5, tier: "Outdoor / medium" },
+              { task: "Rake back yard leaves (with Falynn)", value: 5, tier: "Outdoor / medium" },
+              { task: "Mow leaves front yard", value: 5, tier: "Outdoor / medium" },
+              { task: "Mow leaves back yard", value: 5, tier: "Outdoor / medium" },
+              { task: "Clean up back yard debris", value: 5, tier: "Outdoor / medium" },
+              { task: "Move construction stuff to breezeway", value: 5, tier: "Outdoor / medium" },
+              { task: "Driveway garbage (with Falynn)", value: 4, tier: "Outdoor / medium" },
+              { task: "Throw hot tub away with Dad", value: 4, tier: "Outdoor / medium" },
+              { task: "Clean breezeway with Dad", value: 8, tier: "Hardest" },
+              { task: "Clean garage with Dad", value: 10, tier: "Hardest" }
+            ]
+          }
+        ],
+        bonuses: [
+          { label: "Helped Falynn meaningfully without being asked (+$5)", value: 5 },
+          { label: "Worked carefully and did not rush (+$5)", value: 5 },
+          { label: "Great teamwork / no arguing (+$5)", value: 5 }
+        ]
+      },
+      fal: {
+        name: "Falynn",
+        days: [
+          {
+            title: "Day 1 – Reset & Organization",
+            chores: [
+              { task: "Sort clothes on Dad's bed (with Finnlee)", value: 10, tier: "Clothing / medium" },
+              { task: "Fold all clothes", value: 10, tier: "Clothing / medium" },
+              { task: "Put away all clothes", value: 10, tier: "Clothing / medium" },
+              { task: "Clean living room", value: 6, tier: "Easy" },
+              { task: "Sweep living room and hall", value: 6, tier: "Easy" },
+              { task: "Clean sink in bathroom", value: 6, tier: "Easy" }
+            ]
+          },
+          {
+            title: "Day 2 – Deep Clean",
+            chores: [
+              { task: "Clean counters in kitchen", value: 6, tier: "Easy" },
+              { task: "Clean Fal room", value: 12, tier: "Bedroom / hard" },
+              { task: "Sweep Fal room", value: 4, tier: "Easy" },
+              { task: "Clean Fal playroom", value: 10, tier: "Bedroom / hard" },
+              { task: "Sweep Fal playroom", value: 4, tier: "Easy" }
+            ]
+          },
+          {
+            title: "Day 3 – Outside & Big Jobs",
+            chores: [
+              { task: "Pull weeds from garden (with Finnlee)", value: 6, tier: "Outdoor / medium" },
+              { task: "Rake leaves front yard (with Finnlee)", value: 5, tier: "Outdoor / medium" },
+              { task: "Rake back yard leaves (with Finnlee)", value: 5, tier: "Outdoor / medium" },
+              { task: "Driveway garbage (with Finnlee)", value: 5, tier: "Outdoor / medium" },
+              { task: "Throw hot tub away with Dad", value: 5, tier: "Outdoor / medium" },
+              { task: "Clean breezeway with Dad", value: 5, tier: "Hardest" },
+              { task: "Clean garage with Dad", value: 5, tier: "Hardest" }
+            ]
+          }
+        ],
+        bonuses: [
+          { label: "Helped Finnlee meaningfully without being asked (+$5)", value: 5 },
+          { label: "Worked carefully and did not rush (+$5)", value: 5 },
+          { label: "Great teamwork / no arguing (+$5)", value: 5 }
+        ]
+      }
+    };
+
+    function renderKid(key, containerId) {
+      const kid = kids[key];
+      const container = document.getElementById(containerId);
+      let html = "";
+
+      kid.days.forEach((day, dayIndex) => {
+        html += `
+          <section class="day">
+            <h3>${day.title}</h3>
+            <table>
+              <thead>
+                <tr>
+                  <th>Chore</th>
+                  <th>Weight</th>
+                  <th>Status</th>
+                  <th>Dad Check</th>
+                </tr>
+              </thead>
+              <tbody>
+        `;
+
+        day.chores.forEach((chore, choreIndex) => {
+          const name = `${key}-d${dayIndex}-c${choreIndex}`;
+          html += `
+            <tr>
+              <td data-label="Chore">
+                <div class="task">${chore.task}</div>
+                <div class="small">${chore.tier}</div>
+              </td>
+              <td data-label="Weight"><span class="money">$${chore.value.toFixed(2)}</span></td>
+              <td data-label="Status">
+                <div class="radios">
+                  <label><input type="radio" name="${name}" value="todo" checked> Not Started</label>
+                  <label><input type="radio" name="${name}" value="done"> Done</label>
+                </div>
+              </td>
+              <td data-label="Dad Check">
+                <label class="checkline">
+                  <input type="checkbox" class="failed-check" data-kid="${key}" data-value="${chore.value}" data-name="${name}">
+                  Failed Dad Check
+                </label>
+                <div class="small">Failed check = this chore only pays 50% until fixed.</div>
+              </td>
+            </tr>
+          `;
+        });
+
+        html += `
+              </tbody>
+            </table>
+          </section>
+        `;
+      });
+
+      html += `
+        <section class="bonus-box">
+          <h3>Bonuses</h3>
+          ${kid.bonuses.map((b, i) => `
+            <label class="checkline" style="display:flex; margin:8px 0;">
+              <input type="checkbox" class="bonus-check" data-kid="${key}" data-value="${b.value}" id="${key}-bonus-${i}">
+              ${b.label}
+            </label>
+          `).join("")}
+          <div class="footer-note">Dad inspection matters: rushed or sloppy work lowers the money until the chore is corrected.</div>
+        </section>
+      `;
+
+      container.innerHTML = html;
+    }
+
+    function calculateKid(key) {
+      const kid = kids[key];
+      let totalPossible = 0;
+      let baseEarned = 0;
+      let completedCount = 0;
+      let taskCount = 0;
+
+      kid.days.forEach((day, dayIndex) => {
+        day.chores.forEach((chore, choreIndex) => {
+          taskCount++;
+          totalPossible += chore.value;
+          const name = `${key}-d${dayIndex}-c${choreIndex}`;
+          const selected = document.querySelector(`input[name="${name}"]:checked`);
+          const failed = document.querySelector(`.failed-check[data-name="${name}"]`)?.checked;
+
+          if (selected && selected.value === "done") {
+            completedCount++;
+            baseEarned += failed ? chore.value * 0.5 : chore.value;
+          }
+        });
+      });
+
+      let bonus = 0;
+      document.querySelectorAll(`.bonus-check[data-kid="${key}"]`).forEach(cb => {
+        if (cb.checked) bonus += Number(cb.dataset.value);
+      });
+
+      const percent = taskCount ? Math.round((completedCount / taskCount) * 100) : 0;
+      return {
+        percent,
+        baseEarned,
+        total: baseEarned + bonus
+      };
+    }
+
+    function updateUI() {
+      ["finn", "fal"].forEach(key => {
+        const result = calculateKid(key);
+        document.getElementById(`${key}Percent`).textContent = `${result.percent}%`;
+        document.getElementById(`${key}Bar`).style.width = `${result.percent}%`;
+        document.getElementById(`${key}Earned`).textContent = `$${result.baseEarned.toFixed(2)}`;
+        document.getElementById(`${key}Total`).textContent = `$${result.total.toFixed(2)}`;
+      });
+    }
+
+    renderKid("finn", "finnDays");
+    renderKid("fal", "falDays");
+    document.addEventListener("change", updateUI);
+    updateUI();
+  </script>
+</body>
+</html>
