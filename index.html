@@ -1,4 +1,4 @@
-<!DOCTYPE html> 
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -6,7 +6,7 @@
   <title>Finnlee & Falynn Chore Tracker</title>
   <style>
     :root{
-      --bg:#0f172a;
+      --bg:#0b1220;
       --panel:#111827;
       --panel2:#1f2937;
       --line:#334155;
@@ -14,31 +14,43 @@
       --muted:#cbd5e1;
       --accent:#f59e0b;
       --good:#22c55e;
-      --warn:#ef4444;
-      --soft:#1e293b;
+      --bad:#ef4444;
+      --soft:#172033;
     }
-    *{box-sizing:border-box}
+
+    * { box-sizing: border-box; }
+
     body{
       margin:0;
       font-family:Arial, Helvetica, sans-serif;
-      background:linear-gradient(180deg,#0b1220 0%, #111827 100%);
+      background:linear-gradient(180deg, #0b1220 0%, #111827 100%);
       color:var(--text);
     }
+
     .wrap{
       max-width:1400px;
       margin:0 auto;
       padding:24px;
     }
+
     .hero{
-      background:rgba(17,24,39,.95);
+      background:rgba(17,24,39,.96);
       border:1px solid var(--line);
       border-radius:20px;
       padding:24px;
       box-shadow:0 10px 30px rgba(0,0,0,.25);
       margin-bottom:20px;
     }
-    h1,h2,h3{margin:0 0 10px}
-    .sub{color:var(--muted); line-height:1.5}
+
+    h1,h2,h3{
+      margin:0 0 10px;
+    }
+
+    .sub{
+      color:var(--muted);
+      line-height:1.55;
+    }
+
     .warning{
       margin-top:14px;
       padding:14px 16px;
@@ -48,43 +60,59 @@
       color:#fecaca;
       font-weight:700;
     }
+
     .rules{
       display:grid;
       grid-template-columns:repeat(3, minmax(0,1fr));
       gap:14px;
       margin-top:18px;
     }
+
     .rule{
       background:var(--soft);
       border:1px solid var(--line);
       border-radius:16px;
       padding:16px;
     }
-    .rule strong{color:var(--accent)}
+
+    .rule strong{
+      color:#fde68a;
+    }
+
     .columns{
       display:grid;
       grid-template-columns:1fr 1fr;
       gap:20px;
       align-items:start;
     }
+
     .kid{
-      background:rgba(17,24,39,.95);
+      background:rgba(17,24,39,.96);
       border:1px solid var(--line);
       border-radius:20px;
       overflow:hidden;
-      box-shadow:0 10px 30px rgba(0,0,0,.2);
+      box-shadow:0 10px 30px rgba(0,0,0,.20);
     }
+
     .kid-header{
       padding:18px 18px 14px;
       border-bottom:1px solid var(--line);
-      background:linear-gradient(180deg, rgba(245,158,11,.13), rgba(245,158,11,.05));
+      background:linear-gradient(180deg, rgba(245,158,11,.14), rgba(245,158,11,.04));
     }
+
+    .legend{
+      color:var(--muted);
+      font-size:.9rem;
+      line-height:1.5;
+    }
+
     .stats{
       display:grid;
-      grid-template-columns:repeat(3, minmax(0,1fr));
+      grid-template-columns:repeat(4, minmax(0,1fr));
       gap:10px;
       margin-top:14px;
     }
+
     .stat{
       background:var(--panel2);
       border:1px solid var(--line);
@@ -92,11 +120,19 @@
       padding:12px;
       text-align:center;
     }
+
+    .stat .label{
+      font-size:.82rem;
+      color:#e5e7eb;
+      margin-bottom:6px;
+    }
+
     .stat .value{
-      font-size:1.5rem;
+      font-size:1.45rem;
       font-weight:800;
       color:var(--accent);
     }
+
     .bar{
       height:12px;
       width:100%;
@@ -106,13 +142,18 @@
       border:1px solid var(--line);
       margin-top:10px;
     }
+
     .fill{
       height:100%;
       width:0%;
       background:linear-gradient(90deg, var(--good), #86efac);
       transition:width .25s ease;
     }
-    .inner{padding:18px;}
+
+    .inner{
+      padding:18px;
+    }
+
     .day{
       margin-bottom:18px;
       background:var(--soft);
@@ -120,45 +161,59 @@
       border-radius:16px;
       overflow:hidden;
     }
+
     .day h3{
       padding:14px 16px;
       background:rgba(255,255,255,.03);
       border-bottom:1px solid var(--line);
     }
+
     table{
       width:100%;
       border-collapse:collapse;
       font-size:.95rem;
     }
-    th,td{
+
+    th, td{
       padding:10px 8px;
       border-bottom:1px solid rgba(148,163,184,.18);
       vertical-align:middle;
     }
+
     th{
       color:#fde68a;
-      font-size:.85rem;
+      font-size:.82rem;
       text-transform:uppercase;
       letter-spacing:.04em;
+      text-align:left;
     }
-    tr:last-child td{border-bottom:none}
+
+    tr:last-child td{
+      border-bottom:none;
+    }
+
     .task{
-      font-weight:600;
+      font-weight:700;
     }
+
     .small{
       color:var(--muted);
-      font-size:.85rem;
+      font-size:.84rem;
+      line-height:1.35;
     }
+
     .money{
       white-space:nowrap;
       font-weight:800;
       color:#fde68a;
     }
+
     .radios{
       display:flex;
       gap:10px;
       flex-wrap:wrap;
     }
+
     .radios label, .checkline{
       display:inline-flex;
       align-items:center;
@@ -167,11 +222,14 @@
       font-size:.9rem;
       color:var(--text);
     }
-    input[type="radio"], input[type="checkbox"]{
-      transform:scale(1.1);
+
+    input[type="radio"],
+    input[type="checkbox"]{
+      transform:scale(1.08);
       accent-color:var(--accent);
       cursor:pointer;
     }
+
     .bonus-box{
       background:var(--soft);
       border:1px solid var(--line);
@@ -179,47 +237,69 @@
       padding:14px;
       margin-top:16px;
     }
-    .bonus-box ul{
-      margin:10px 0 0 18px;
-      padding:0;
-      color:var(--muted);
-    }
+
     .footer-note{
       margin-top:12px;
       color:#fecaca;
       font-weight:700;
       font-size:.92rem;
+      line-height:1.45;
     }
-    .pill{
-      display:inline-block;
-      padding:4px 9px;
-      border-radius:999px;
-      background:rgba(245,158,11,.15);
-      border:1px solid rgba(245,158,11,.35);
-      color:#fde68a;
-      font-size:.78rem;
-      font-weight:700;
-      margin-left:8px;
+
+    .button-row{
+      margin-top:18px;
+      display:flex;
+      gap:12px;
+      flex-wrap:wrap;
     }
-    .legend{
-      margin-top:6px;
-      color:var(--muted);
-      font-size:.88rem;
+
+    button{
+      border:none;
+      background:#f59e0b;
+      color:#111827;
+      font-weight:800;
+      padding:12px 16px;
+      border-radius:12px;
+      cursor:pointer;
+      font-size:.95rem;
     }
-    @media (max-width: 980px){
-      .columns{grid-template-columns:1fr}
-      .rules{grid-template-columns:1fr}
-      .stats{grid-template-columns:1fr}
-      table, thead, tbody, th, td, tr{display:block}
-      thead{display:none}
+
+    button.secondary{
+      background:#334155;
+      color:#f8fafc;
+    }
+
+    button:hover{
+      opacity:.95;
+    }
+
+    @media (max-width: 1100px){
+      .columns{ grid-template-columns:1fr; }
+      .rules{ grid-template-columns:1fr; }
+      .stats{ grid-template-columns:repeat(2, minmax(0,1fr)); }
+    }
+
+    @media (max-width: 700px){
+      .stats{ grid-template-columns:1fr; }
+
+      table, thead, tbody, th, td, tr{
+        display:block;
+      }
+
+      thead{
+        display:none;
+      }
+
       tr{
         padding:10px;
         border-bottom:1px solid rgba(148,163,184,.18);
       }
+
       td{
         border:none;
         padding:6px 0;
       }
+
       td::before{
         content:attr(data-label);
         display:block;
@@ -236,11 +316,14 @@
     <section class="hero">
       <h1>Finnlee &amp; Falynn Chore Tracker</h1>
       <p class="sub">
-        Each kid can earn <strong>$100</strong>, but the money is <strong>weighted across the chores</strong>.
-        Harder chores are worth more money. Easier chores are worth less money. The lists are side by side so Dad can track both at the same time.
+        Each kid can earn up to <strong>$100 base pay</strong>, plus optional bonuses.
+        The money is <strong>weighted by chore difficulty</strong>. Hard chores are worth more.
+        Easier chores are worth less.
       </p>
+
       <div class="warning">
-        IMPORTANT: If Dad checks a chore and it was rushed, sloppy, or not actually done the right way, the money for that chore goes DOWN until it is fixed.
+        IMPORTANT: If Dad checks a chore and it was rushed, sloppy, half-done, or not completed the right way,
+        the money for that chore gets decreased until it is fixed correctly.
       </div>
 
       <div class="rules">
@@ -253,39 +336,51 @@
             <strong>Easy:</strong> everything else
           </div>
         </div>
+
         <div class="rule">
           <h3>Status Rules</h3>
           <div class="sub">
-            Mark each chore as <strong>Not Started</strong>, <strong>Done</strong>, or <strong>Failed Dad Check</strong>.
-            A failed check cuts the chore payout in half until it is corrected.
+            Each chore can be marked <strong>Not Started</strong> or <strong>Done</strong>.
+            Dad can also mark a chore as <strong>Failed Dad Check</strong>, which cuts that chore’s payout in half until it is corrected.
           </div>
         </div>
+
         <div class="rule">
-          <h3>Bonus Rules</h3>
+          <h3>Saved Automatically</h3>
           <div class="sub">
-            Bonuses can be added for <strong>meaningful helping</strong>, <strong>not rushing</strong>, and <strong>great teamwork</strong>.
+            Selections are saved in this browser using <strong>localStorage</strong>.
+            Refreshing the page will keep the progress and payout totals on this device.
           </div>
         </div>
+      </div>
+
+      <div class="button-row">
+        <button type="button" onclick="clearAllProgress()">Reset All Progress</button>
+        <button type="button" class="secondary" onclick="clearBonusesOnly()">Clear Bonuses Only</button>
       </div>
     </section>
 
     <section class="columns">
-      <div class="kid" id="finnCard">
+      <div class="kid">
         <div class="kid-header">
           <h2>Finnlee (Age 10)</h2>
-          <div class="legend">Goal: finish strong, do it right, and earn the full $100.</div>
+          <div class="legend">Goal: do the work the right way, pass Dad’s check, and earn the full amount.</div>
           <div class="stats">
             <div class="stat">
-              <div>Complete</div>
+              <div class="label">Complete</div>
               <div class="value" id="finnPercent">0%</div>
               <div class="bar"><div class="fill" id="finnBar"></div></div>
             </div>
             <div class="stat">
-              <div>Base Earned (of $100)</div>
+              <div class="label">Base Earned</div>
               <div class="value" id="finnEarned">$0.00</div>
             </div>
             <div class="stat">
-              <div>Total w/ Bonus (out of $100 base)</div>
+              <div class="label">Bonus</div>
+              <div class="value" id="finnBonus">$0.00</div>
+            </div>
+            <div class="stat">
+              <div class="label">Total</div>
               <div class="value" id="finnTotal">$0.00</div>
             </div>
           </div>
@@ -293,22 +388,26 @@
         <div class="inner" id="finnDays"></div>
       </div>
 
-      <div class="kid" id="falCard">
+      <div class="kid">
         <div class="kid-header">
           <h2>Falynn (Age 8)</h2>
-          <div class="legend">Goal: steady work, good attitude, and do every chore the right way.</div>
+          <div class="legend">Goal: steady work, good attitude, and finishing each chore the right way.</div>
           <div class="stats">
             <div class="stat">
-              <div>Complete</div>
+              <div class="label">Complete</div>
               <div class="value" id="falPercent">0%</div>
               <div class="bar"><div class="fill" id="falBar"></div></div>
             </div>
             <div class="stat">
-              <div>Base Earned (of $100)</div>
+              <div class="label">Base Earned</div>
               <div class="value" id="falEarned">$0.00</div>
             </div>
             <div class="stat">
-              <div>Total w/ Bonus (out of $100 base)</div>
+              <div class="label">Bonus</div>
+              <div class="value" id="falBonus">$0.00</div>
+            </div>
+            <div class="stat">
+              <div class="label">Total</div>
               <div class="value" id="falTotal">$0.00</div>
             </div>
           </div>
@@ -319,6 +418,8 @@
   </div>
 
   <script>
+    const STORAGE_KEY = "finnlee_falynn_chore_tracker_v1";
+
     const kids = {
       finn: {
         name: "Finnlee",
@@ -366,6 +467,7 @@
           { label: "Great teamwork / no arguing (+$5)", value: 5 }
         ]
       },
+
       fal: {
         name: "Falynn",
         days: [
@@ -440,19 +542,32 @@
                 <div class="task">${chore.task}</div>
                 <div class="small">${chore.tier}</div>
               </td>
-              <td data-label="Weight"><span class="money">$${chore.value.toFixed(2)}</span></td>
+              <td data-label="Weight">
+                <span class="money">$${chore.value.toFixed(2)}</span>
+              </td>
               <td data-label="Status">
                 <div class="radios">
-                  <label><input type="radio" name="${name}" value="todo" checked> Not Started</label>
-                  <label><input type="radio" name="${name}" value="done"> Done</label>
+                  <label>
+                    <input type="radio" name="${name}" value="todo" checked>
+                    Not Started
+                  </label>
+                  <label>
+                    <input type="radio" name="${name}" value="done">
+                    Done
+                  </label>
                 </div>
               </td>
               <td data-label="Dad Check">
                 <label class="checkline">
-                  <input type="checkbox" class="failed-check" data-kid="${key}" data-value="${chore.value}" data-name="${name}">
+                  <input
+                    type="checkbox"
+                    class="failed-check"
+                    data-kid="${key}"
+                    data-name="${name}"
+                  >
                   Failed Dad Check
                 </label>
-                <div class="small">Failed check = this chore only pays 50% until fixed.</div>
+                <div class="small">Failed Dad Check = this chore only pays 50% until corrected.</div>
               </td>
             </tr>
           `;
@@ -468,13 +583,21 @@
       html += `
         <section class="bonus-box">
           <h3>Bonuses</h3>
-          ${kid.bonuses.map((b, i) => `
+          ${kid.bonuses.map((bonus, i) => `
             <label class="checkline" style="display:flex; margin:8px 0;">
-              <input type="checkbox" class="bonus-check" data-kid="${key}" data-value="${b.value}" id="${key}-bonus-${i}">
-              ${b.label}
+              <input
+                type="checkbox"
+                class="bonus-check"
+                data-kid="${key}"
+                data-value="${bonus.value}"
+                id="${key}-bonus-${i}"
+              >
+              ${bonus.label}
             </label>
           `).join("")}
-          <div class="footer-note">Dad inspection matters: rushed or sloppy work lowers the money until the chore is corrected.</div>
+          <div class="footer-note">
+            Dad inspection matters: if a chore is rushed or not done right, the payout gets decreased until that chore is fixed correctly.
+          </div>
         </section>
       `;
 
@@ -483,53 +606,131 @@
 
     function calculateKid(key) {
       const kid = kids[key];
-      let totalPossible = 0;
       let baseEarned = 0;
+      let bonusEarned = 0;
       let completedCount = 0;
       let taskCount = 0;
 
       kid.days.forEach((day, dayIndex) => {
         day.chores.forEach((chore, choreIndex) => {
           taskCount++;
-          totalPossible += chore.value;
           const name = `${key}-d${dayIndex}-c${choreIndex}`;
           const selected = document.querySelector(`input[name="${name}"]:checked`);
           const failed = document.querySelector(`.failed-check[data-name="${name}"]`)?.checked;
 
           if (selected && selected.value === "done") {
             completedCount++;
-            baseEarned += failed ? chore.value * 0.5 : chore.value;
+            baseEarned += failed ? (chore.value * 0.5) : chore.value;
           }
         });
       });
 
-      let bonus = 0;
       document.querySelectorAll(`.bonus-check[data-kid="${key}"]`).forEach(cb => {
-        if (cb.checked) bonus += Number(cb.dataset.value);
+        if (cb.checked) {
+          bonusEarned += Number(cb.dataset.value);
+        }
       });
 
       const percent = taskCount ? Math.round((completedCount / taskCount) * 100) : 0;
+
       return {
         percent,
         baseEarned,
-        total: baseEarned + bonus
+        bonusEarned,
+        total: baseEarned + bonusEarned
       };
     }
 
     function updateUI() {
       ["finn", "fal"].forEach(key => {
         const result = calculateKid(key);
+
         document.getElementById(`${key}Percent`).textContent = `${result.percent}%`;
         document.getElementById(`${key}Bar`).style.width = `${result.percent}%`;
         document.getElementById(`${key}Earned`).textContent = `$${result.baseEarned.toFixed(2)}`;
+        document.getElementById(`${key}Bonus`).textContent = `$${result.bonusEarned.toFixed(2)}`;
         document.getElementById(`${key}Total`).textContent = `$${result.total.toFixed(2)}`;
       });
     }
 
+    function saveState() {
+      const state = {};
+
+      document.querySelectorAll('input[type="radio"]:checked').forEach(radio => {
+        state[`radio:${radio.name}`] = radio.value;
+      });
+
+      document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+        if (checkbox.id) {
+          state[`checkbox-id:${checkbox.id}`] = checkbox.checked;
+        } else if (checkbox.dataset.name) {
+          state[`checkbox-name:${checkbox.dataset.name}`] = checkbox.checked;
+        }
+      });
+
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    }
+
+    function loadState() {
+      const state = JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}");
+
+      Object.entries(state).forEach(([key, value]) => {
+        if (key.startsWith("radio:")) {
+          const name = key.replace("radio:", "");
+          const radio = document.querySelector(`input[name="${name}"][value="${value}"]`);
+          if (radio) radio.checked = true;
+        }
+
+        if (key.startsWith("checkbox-id:")) {
+          const id = key.replace("checkbox-id:", "");
+          const checkbox = document.getElementById(id);
+          if (checkbox) checkbox.checked = value;
+        }
+
+        if (key.startsWith("checkbox-name:")) {
+          const dataName = key.replace("checkbox-name:", "");
+          const checkbox = document.querySelector(`input[type="checkbox"][data-name="${dataName}"]`);
+          if (checkbox) checkbox.checked = value;
+        }
+      });
+    }
+
+    function clearAllProgress() {
+      if (!confirm("Reset all chore progress and bonuses?")) return;
+
+      localStorage.removeItem(STORAGE_KEY);
+
+      document.querySelectorAll('input[type="radio"][value="todo"]').forEach(radio => {
+        radio.checked = true;
+      });
+
+      document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+        checkbox.checked = false;
+      });
+
+      saveState();
+      updateUI();
+    }
+
+    function clearBonusesOnly() {
+      document.querySelectorAll('.bonus-check').forEach(checkbox => {
+        checkbox.checked = false;
+      });
+
+      saveState();
+      updateUI();
+    }
+
     renderKid("finn", "finnDays");
     renderKid("fal", "falDays");
-    document.addEventListener("change", updateUI);
+
+    loadState();
     updateUI();
+
+    document.addEventListener("change", () => {
+      saveState();
+      updateUI();
+    });
   </script>
 </body>
 </html>
